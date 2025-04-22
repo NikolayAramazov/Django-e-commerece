@@ -1,0 +1,32 @@
+{% load static %}
+{% for product in products %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+            {% else %}
+                <img src="{% static 'images/default-product.jpg' %}" class="card-img-top" alt="No image">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text"><strong>Price: {{ product.price }}$</strong></p>
+
+                {% if product.stock > 0 %}
+                    <form method="post" action="{% url 'store:add_to_cart' product.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-dark add-to-cart-btn">Add to Cart</button>
+                    </form>
+                {% else %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-dark add-to-cart-btn" disabled>Out of Stock</button>
+                    </form>
+                {% endif %}
+
+                <form method="get" action="{% url 'product_detail' product.id %}">
+                    <button type="submit" class="btn btn-dark add-to-cart-btn">View Product</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endfor %}

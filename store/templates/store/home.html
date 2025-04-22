@@ -1,0 +1,82 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Home Page{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/home-page.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="{% url 'store:home' %}" class="home-link"><h2>Home</h2></a>
+        <div class="dropdown custom-category-dropdown">
+            <button class="btn btn-dark dropdown-toggle" type="button" id="categoryDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Products
+            </button>
+            <div class="dropdown-menu" aria-labelledby="categoryDropdown">
+                <a class="dropdown-item" href="{% url 'products_by_category' %}?category=">All Products</a>
+                {% for category in categories %}
+                    <a class="dropdown-item" href="{% url 'products_by_category' %}?category={{ category.id }}">{{ category.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% block navbar %}
+            <div style="margin-left: auto;">
+
+                <a href="{% url 'store:cart' %}">
+                    <button type="button" class="btn btn-outline-light position-relative" title="Cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        {% if request.session.cart %}
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ request.session.cart|length }}
+                            </span>
+                        {% endif %}
+                    </button>
+                </a>
+
+                {% if user.is_authenticated %}
+                    <form action="{% url 'accounts:logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="sign-in-button">Sign out</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'accounts:sign_in' %}">
+                        <button type="button" class="sign-in-button">Sign in</button>
+                    </a>
+                {% endif %}
+            </div>
+        {% endblock %}
+    </nav>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script>
+        const signInButton = document.querySelector('.sign-in-button');
+        if (signInButton) {
+            signInButton.addEventListener('click', function () {
+                window.location.href = signInButton.getAttribute('data-url');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.sign-up-form');
+        const fields = form.querySelectorAll('input');
+
+        fields.forEach(field => {
+            field.setAttribute('autocomplete', 'off');
+            field.setAttribute('readonly', 'readonly');
+            setTimeout(() => {
+                field.removeAttribute('readonly');
+            }, 100);
+        });
+    });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

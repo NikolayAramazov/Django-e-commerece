@@ -1,0 +1,56 @@
+{% extends 'store/home.html' %}
+{% load custom_filters %}
+
+{% block title %}Your Cart{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Your Shopping Cart</h2>
+    {% if cart %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Action</th>  <!-- Column for Remove button -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for product_id, item in cart.items %}
+                    <tr id="product-{{ product_id }}">
+                        <td>{{ item.name }}</td>
+                        <td>${{ item.price }}</td>
+                        <td class="quantity">{{ item.quantity }}</td>
+                        <td>${{ item.price|multiply:item.quantity|floatformat:2 }}</td>
+                        <td>
+                            <!-- Remove button -->
+                        <div class="add-remove-buttons">
+                            {% if item.quantity >= item.stock %}
+                            <form method="post" action="{% url 'store:add_one_piece' product_id=product_id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger" disabled>Add 1</button>
+                            </form>
+                        {% else %}
+                            <form method="post" action="{% url 'store:add_one_piece' product_id=product_id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Add 1</button>
+                            </form>
+                        {% endif %}
+
+                            <form method="post" action="{% url 'store:remove_from_cart' product_id=product_id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Remove 1</button>
+                            </form>
+                        </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+</div>
+{% endblock %}
