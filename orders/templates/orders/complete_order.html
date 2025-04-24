@@ -1,0 +1,11 @@
+{% extends 'store/home.html' %}
+{% block title %}Order Confirmation{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Order Confirmation</h2>
+    <p>Your order has been placed successfully!</p>
+    <p>Order ID: {{ order.id }}</p>
+    <p>Status: {{ order.status }}</p>
+</div>
+{% endblock %}

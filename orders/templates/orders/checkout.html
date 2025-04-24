@@ -1,0 +1,22 @@
+{% extends 'store/home.html' %}
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="checkout_title">Checkout</h2>
+    <form class="checkout_form" method="post" novalidate>
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="mb-3">
+                {{ field }}
+            </div>
+        {% endfor %}
+        <a href="{% url 'orders:payment' %}" class="place_order_btn">
+        <button type="submit" class="btn btn-primary">Place Order</button>
+        </a>
+    </form>
+</div>
+
+{% endblock %}
+

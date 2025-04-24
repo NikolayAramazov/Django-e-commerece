@@ -36,6 +36,12 @@ a.home-link:active {
     color: inherit;            /* Keeps color consistent on interaction */
 }
 
+button.btn.btn-primary:focus,
+button.btn.btn-primary:active {
+    outline: none;  /* Removes the outline effect */
+    box-shadow: none;  /* Removes any shadow effect on active/focused button */
+}
+
 .nav-bar {
     display: flex;
     flex-direction: row;
@@ -294,4 +300,42 @@ button.btn.btn-outline-light {
 .add-remove-buttons {
     display: flex;
     gap: 30px;
+}
+
+checkout_title{
+    text-align: center;
+}
+
+.form-control {
+    display: block;
+    width: 600px;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.container.mt-5 {
+    max-width: 100%;
+    width: 650px;
+    text-align: center;
+    margin: 100px auto auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+form.checkout_form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 20px;
 }

@@ -1,0 +1,81 @@
+{% extends 'store/home.html' %}
+
+{% block title %}Payment{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="payment_title">Payment</h2>
+    <p>Complete your payment to finalize the order.</p>
+
+    <form id="payment-form" method="post">
+        {% csrf_token %}
+
+        <!-- Stripe Card Element -->
+        <div class="form-group">
+            <label for="card-element">Credit or debit card</label>
+            <div id="card-element" class="form-control">
+                <!-- Stripe injects the card input here -->
+            </div>
+            <div id="card-errors" role="alert" class="text-danger mt-2"></div>
+        </div>
+
+        <button class="btn btn-success mt-3" type="submit">
+            Pay ${{ order.total_price }}
+        </button>
+    </form>
+</div>
+
+<!-- Stripe.js -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+    const stripeKey = "{{ stripe_key|escapejs }}";
+
+    if (!stripeKey || stripeKey === "") {
+        console.error("Stripe publishable key is missing!");
+        alert("Stripe publishable key is missing. Check your settings.");
+    } else {
+        const stripe = Stripe(stripeKey);
+        const elements = stripe.elements();
+
+        const card = elements.create('card', {
+            style: {
+                base: {
+                    color: '#32325d',
+                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                    fontSmoothing: 'antialiased',
+                    fontSize: '16px',
+                    '::placeholder': { color: '#aab7c4' }
+                },
+                invalid: {
+                    color: '#fa755a',
+                    iconColor: '#fa755a'
+                }
+            }
+        });
+
+        card.mount('#card-element');
+
+        const form = document.getElementById('payment-form');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const { token, error } = await stripe.createToken(card);
+
+            if (error) {
+                const errorElement = document.getElementById('card-errors');
+                errorElement.textContent = error.message;
+            } else {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.setAttribute('type', 'hidden');
+                hiddenInput.setAttribute('name', 'stripeToken');
+                hiddenInput.setAttribute('value', token.id);
+                form.appendChild(hiddenInput);
+
+                form.submit();
+            }
+        });
+    }
+</script>
+{% endblock %}
