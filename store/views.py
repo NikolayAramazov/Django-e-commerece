@@ -2,12 +2,13 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from storage.models import Product
-from store.models import Category
+from store.models import Category, Ad
 
 
 def home(request):
     categories = Category.objects.all()
-    return render(request, 'store/home.html', {'categories': categories})
+    ads = Ad.objects.filter(is_active=True)  # Get active ads
+    return render(request, 'store/home.html', {'categories': categories, 'ads': ads})
 
 
 def load_cart(request):
@@ -68,3 +69,4 @@ def add_one_piece(request, product_id):
     request.session['cart'] = cart
 
     return redirect('store:cart')
+

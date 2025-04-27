@@ -339,3 +339,43 @@ form.checkout_form {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     padding: 20px;
 }
+
+h3.ads_title {
+    text-align: center;
+    font-size: xxx-large;
+}
+
+.container-fluid.mt-4{
+    width: 1500px;
+}
+
+.ad-carousel-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0 auto;
+}
+
+.carousel-inner {
+    width: 100%;
+    max-width: 1800px;
+    margin: 0 auto;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+#ad-carousel {
+    width: 100%;
+    max-width: 1800px;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 5px;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 600px;
+    object-position: center;
+
+}
