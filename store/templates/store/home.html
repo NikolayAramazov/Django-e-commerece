@@ -49,45 +49,59 @@
         {% endblock %}
     </nav>
 
-    <div class="container-fluid mt-4">
-        {% if request.path == '/' %}
-            <h3 class="ads_title">Our Latest Products</h3>
+    {% if request.path == '/' %}
+    <div class="main">
+        <div class="container-fluid mt-4">
+                <h3 class="ads_title">Our Latest Products</h3>
 
-            {% if ads %}
-                <!-- Wrap the carousel in a centered container -->
-                <div class="ad-carousel-container">
-                    <div id="ad-carousel" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            {% for ad in ads %}
-                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                    <img src="{{ ad.image.url }}" class="d-block w-100" alt="{{ ad.title }}">
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <a href="{{ ad.link }}">
-                                            <button class="btn btn-primary">View Product</button>
-                                        </a>
+                {% if ads %}
+                    <div class="ad-carousel-container">
+                        <div id="ad-carousel" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for ad in ads %}
+                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                        <img src="{{ ad.image.url }}" class="d-block w-100" alt="{{ ad.title }}">
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <a href="{{ ad.link }}">
+                                                <button class="btn btn-primary">View Product</button>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            {% endfor %}
+                                {% endfor %}
+                            </div>
+                            <a class="carousel-control-prev" href="#ad-carousel" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#ad-carousel" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
                         </div>
-                        <a class="carousel-control-prev" href="#ad-carousel" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#ad-carousel" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
                     </div>
-                </div>
-            {% else %}
-                <p>No ads available at the moment. Please check back later!</p>
-            {% endif %}
-        {% endif %}
+                {% else %}
+                    <p>No ads available at the moment. Please check back later!</p>
+                {% endif %}
+        </div>
+
+        <div class="container-fluid mt-4">
+                <h3 class="best_sellers_title">Best Sellers</h3>
+
+                    <div id="best_sellers" class="row">
+                    {% include 'storage/best_sellers.html' %}
+                    </div>
+        </div>
     </div>
+    {% endif %}
+
 
     <div class="content">
         {% block content %}{% endblock %}
     </div>
+
+    <footer style="background-color: #000; color: #fff; text-align: center; padding: 10px 0; font-size: 14px;">
+        &copy; {{ now|date:"Y" }} YourSiteName. All rights reserved.
+    </footer>
 
     <script>
         const signInButton = document.querySelector('.sign-in-button');

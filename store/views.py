@@ -7,8 +7,9 @@ from store.models import Category, Ad
 
 def home(request):
     categories = Category.objects.all()
-    ads = Ad.objects.filter(is_active=True)  # Get active ads
-    return render(request, 'store/home.html', {'categories': categories, 'ads': ads})
+    ads = Ad.objects.filter(is_active=True)
+    best_sellers = Product.objects.filter(stock__gt=0).order_by('-sales')[:10]
+    return render(request, 'store/home.html', {'best_sellers': best_sellers,'categories': categories, 'ads': ads})
 
 
 def load_cart(request):

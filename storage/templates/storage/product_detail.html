@@ -25,6 +25,9 @@
                     <form method="post" action="{% url 'store:add_to_cart' product.id%}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-dark add-to-cart-btn">Add to Cart</button>
+                        {% if product.stock <= 5 %}
+                        &nbsp;<i class="fa-solid fa-fire">&nbsp;Only {{ product.stock }} remaining</i>
+                        {% endif %}
                     </form>
                 {% else %}
                     <form method="post">

@@ -37,3 +37,4 @@ def all_products(request):
 def product_detail(request, pk):
     product = Product.objects.get(id=pk)
     return render(request, 'storage/product_detail.html', {'product': product})
+

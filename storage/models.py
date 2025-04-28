@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator
 from django.db import models
 from store.models import Category
 
@@ -12,6 +13,7 @@ class Product(models.Model):
     stock = models.PositiveIntegerField(default=1)
     image = models.ImageField(upload_to='product_images/', blank=True, null=True)
     brand = models.CharField(max_length=50, default='Off-brand')
+    sales = models.PositiveIntegerField(default=0) #new line sales counter
 
     def __str__(self):
         return self.name
