@@ -1,6 +1,4 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-
 from storage.models import Product
 from store.models import Category, Ad
 
@@ -8,8 +6,9 @@ from store.models import Category, Ad
 def home(request):
     categories = Category.objects.all()
     ads = Ad.objects.filter(is_active=True)
-    best_sellers = Product.objects.filter(stock__gt=0).order_by('-sales')[:10]
-    return render(request, 'store/home.html', {'best_sellers': best_sellers,'categories': categories, 'ads': ads})
+    best_sellers = Product.objects.filter(stock__gt=0,sales__gt=0).order_by('-sales')[:10]
+    on_sale_products = Product.objects.filter(stock__gt=0, is_on_sale=True).order_by('-stock')[:10]
+    return render(request, 'store/home.html', {'best_sellers': best_sellers,'categories': categories, 'ads': ads,'on_sale_products':on_sale_products})
 
 
 def load_cart(request):
@@ -21,6 +20,8 @@ def add_to_cart(request, product_id):
     cart = request.session.get('cart', {})
     product = get_object_or_404(Product, id=product_id)
 
+    price = product.on_sale_price if product.is_on_sale else product.price
+
     if str(product_id) in cart:
         if cart[str(product_id)]['quantity'] < product.stock:
             cart[str(product_id)]['quantity'] += 1
@@ -29,7 +30,7 @@ def add_to_cart(request, product_id):
     else:
         cart[str(product_id)] = {
             'name': product.name,
-            'price': float(product.price),
+            'price': float(price),
             'quantity': 1,
             'stock': product.stock,
         }

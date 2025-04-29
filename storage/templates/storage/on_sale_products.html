@@ -1,5 +1,5 @@
 {% load static %}
-{% for product in products %}
+{% for product in on_sale_products %}
     <div class="product-card">
         <div class="card h-100">
             {% if product.image %}
@@ -9,12 +9,8 @@
             {% endif %}
             <div class="card-body">
                 <h5 class="card-title">{{ product.name }}</h5>
-                {% if product.is_on_sale %}
                 <p class="card-text" ><strong>Old Price: <del>{{ product.price }}$</del></strong></p>
                 <p class="card-text" style="color: #F73718"><strong>New Price: {{ product.on_sale_price }}$</strong></p>
-                {% else %}
-                <p class="card-text"><strong>Price: {{ product.price }}$</strong></p>
-                {% endif %}
 
                 {% if product.stock > 0 %}
                     <form method="post" action="{% url 'store:add_to_cart' product.id %}">

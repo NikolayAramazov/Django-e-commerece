@@ -9,7 +9,7 @@ class Category(models.Model):
 
 
 class Ad(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100,blank=True, null=True)
     image = models.ImageField(upload_to='product_images/')
     link = models.CharField(max_length=200, help_text="Enter a relative URL like /products/3/")
     is_active = models.BooleanField(default=True)

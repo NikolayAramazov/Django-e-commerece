@@ -107,7 +107,7 @@ def complete_order(request,order_id):
 
         if product.stock >= quantity:
             product.stock -= quantity
-            product.sales += quantity #new line increase sales
+            product.sales += quantity
             product.save()
 
     request.session['cart'] = {}

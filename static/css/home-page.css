@@ -277,6 +277,7 @@ button#categoryDropdown {
     box-shadow: rgba(6, 24, 44, 0.4) 0 0 0 2px, rgba(6, 24, 44, 0.65) 0 4px 6px -1px, rgba(255, 255, 255, 0.08) 0 1px 0 inset;
     width: 1200px;
     border-radius: 10px;
+    align-items: center;
 }
 
 .col-md-6 {
@@ -332,7 +333,8 @@ form.checkout_form {
 }
 
 h3.ads_title,
-h3.best_sellers_title{
+h3.best_sellers_title,
+h3.on_sale_products_title{
     text-align: center;
     font-size: xxx-large;
 }
@@ -376,7 +378,8 @@ div#best_sellers {
 }
 
 #best_sellers,
-#product-list{
+#product-list,
+#on_sale_products{
     width: 1650px;
     display: flex;
     flex-wrap: wrap;

@@ -19,7 +19,12 @@
             <p><strong>Brand:</strong> {{ product.brand }}</p>
             <p><strong>Description:</strong></p>
             <p>{{ product.description }}</p>
-            <p><strong>Price:</strong> ${{ product.price }}</p>
+            {% if product.is_on_sale %}
+                <p><strong>Old Price: <del>{{ product.price }}$</del></strong></p>
+                <p style="color: #F73718"><strong>New Price: {{ product.on_sale_price }}$</strong></p>
+                {% else %}
+                <p><strong>Price:</strong> ${{ product.price }}</p>
+            {% endif %}
 
             {% if product.stock > 0 %}
                     <form method="post" action="{% url 'store:add_to_cart' product.id%}">

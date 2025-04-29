@@ -62,6 +62,9 @@
                                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                         <img src="{{ ad.image.url }}" class="d-block w-100" alt="{{ ad.title }}">
                                         <div class="carousel-caption d-none d-md-block">
+                                            {% if ad.title == "Special Offer!"%}
+                                            <h3 class="ad-title" style="color: #F73718">{{ ad.title }}</h3>
+                                            {% endif %}
                                             <a href="{{ ad.link }}">
                                                 <button class="btn btn-primary">View Product</button>
                                             </a>
@@ -91,6 +94,16 @@
                     {% include 'storage/best_sellers.html' %}
                     </div>
         </div>
+
+        <div class="container-fluid mt-4">
+                <h3 class="on_sale_products_title">Special Offers</h3>
+
+                    <div id="on_sale_products" class="row">
+                    {% include 'storage/on_sale_products.html' %}
+                    </div>
+        </div>
+
+
     </div>
     {% endif %}
 
