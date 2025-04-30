@@ -1,13 +1,19 @@
+import requests
+from django.core import cache
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from DjangoProject1 import settings
 from storage.models import Product
 from store.models import Category, Ad
 
+api_key = settings.EXCHANGE_RATE_API_KEY
 
 def home(request):
     categories = Category.objects.all()
     ads = Ad.objects.filter(is_active=True)
     best_sellers = Product.objects.filter(stock__gt=0,sales__gt=0).order_by('-sales')[:10]
     on_sale_products = Product.objects.filter(stock__gt=0, is_on_sale=True).order_by('-stock')[:10]
+
     return render(request, 'store/home.html', {'best_sellers': best_sellers,'categories': categories, 'ads': ads,'on_sale_products':on_sale_products})
 
 
@@ -72,3 +78,12 @@ def add_one_piece(request, product_id):
 
     return redirect('store:cart')
 
+def get_exchange_rates(request):
+    url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/USD"
+    response = requests.get(url)
+
+    if response.status_code != 200:
+        return JsonResponse({"error": "Failed to fetch exchange rates"}, status=500)
+
+    data = response.json()  # Assuming the response is a valid JSON
+    return JsonResponse(data)

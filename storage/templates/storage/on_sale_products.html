@@ -9,8 +9,12 @@
             {% endif %}
             <div class="card-body">
                 <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text" ><strong>Old Price: <del>{{ product.price }}$</del></strong></p>
-                <p class="card-text" style="color: #F73718"><strong>New Price: {{ product.on_sale_price }}$</strong></p>
+                <p class="card-text old-price">
+                    <strong>Old Price: <del data-usd="{{ product.price }}">{{ product.price }}</del></strong>
+                </p>
+                <p class="card-text new-price" style="color: #F73718">
+                    <strong>New Price: <span data-usd="{{ product.on_sale_price }}">{{ product.on_sale_price }}</span></strong>
+                </p>
 
                 {% if product.stock > 0 %}
                     <form method="post" action="{% url 'store:add_to_cart' product.id %}">
@@ -34,3 +38,4 @@
         </div>
     </div>
 {% endfor %}
+<script src="{% static 'js/currency.js' %}"></script>

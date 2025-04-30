@@ -19,28 +19,31 @@
             <p><strong>Brand:</strong> {{ product.brand }}</p>
             <p><strong>Description:</strong></p>
             <p>{{ product.description }}</p>
+
             {% if product.is_on_sale %}
-                <p><strong>Old Price: <del>{{ product.price }}$</del></strong></p>
-                <p style="color: #F73718"><strong>New Price: {{ product.on_sale_price }}$</strong></p>
-                {% else %}
-                <p><strong>Price:</strong> ${{ product.price }}</p>
+                <p><strong>Old Price: <del data-usd="{{ product.price }}" >{{ product.price }}$</del></strong></p>
+                <p style="color: #F73718"><strong>New Price: <span data-usd="{{ product.on_sale_price }}">{{ product.on_sale_price }}</span></strong></p>
+            {% else %}
+                <p><strong>Price: <span data-usd="{{ product.price }}">{{ product.price }}</span></strong></p>
             {% endif %}
 
             {% if product.stock > 0 %}
-                    <form method="post" action="{% url 'store:add_to_cart' product.id%}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-dark add-to-cart-btn">Add to Cart</button>
-                        {% if product.stock <= 5 %}
-                        &nbsp;<i class="fa-solid fa-fire">&nbsp;Only {{ product.stock }} remaining</i>
-                        {% endif %}
-                    </form>
-                {% else %}
-                    <form method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-dark add-to-cart-btn" disabled>Out of Stock</button>
-                    </form>
-                {% endif %}
+                <form method="post" action="{% url 'store:add_to_cart' product.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-dark add-to-cart-btn">Add to Cart</button>
+                    {% if product.stock <= 5 %}
+                    &nbsp;<i class="fa-solid fa-fire">&nbsp;Only {{ product.stock }} remaining</i>
+                    {% endif %}
+                </form>
+            {% else %}
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-dark add-to-cart-btn" disabled>Out of Stock</button>
+                </form>
+            {% endif %}
         </div>
     </div>
 </div>
+
 {% endblock %}
+

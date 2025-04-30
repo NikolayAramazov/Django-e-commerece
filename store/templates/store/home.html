@@ -45,9 +45,19 @@
                         <button type="button" class="sign-in-button">Sign in</button>
                     </a>
                 {% endif %}
+
             </div>
         {% endblock %}
     </nav>
+
+    <div class="currency-dropdown" style="margin-left: 20px;">
+        <select id="currency-select" class="form-control">
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+            <option value="INR">INR (₹)</option>
+        </select>
+    </div>
 
     {% if request.path == '/' %}
     <div class="main">
@@ -104,6 +114,7 @@
         </div>
 
 
+
     </div>
     {% endif %}
 
@@ -136,9 +147,13 @@
             }, 100);
         });
     });
+
+
+
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/currency.js' %}"></script>
 
 
 

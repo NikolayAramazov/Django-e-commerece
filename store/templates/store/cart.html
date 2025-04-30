@@ -21,11 +21,10 @@
                 {% for product_id, item in cart.items %}
                     <tr id="product-{{ product_id }}">
                         <td>{{ item.name }}</td>
-                        <td>${{ item.price }}</td>
+                        <td><span data-usd="{{ item.price }}">{{ item.price }}</span></td>
                         <td class="quantity">{{ item.quantity }}</td>
-                        <td>${{ item.price|multiply:item.quantity|floatformat:2 }}</td>
+                        <td><span data-usd="{{ item.price|multiply:item.quantity }}">{{ item.price|multiply:item.quantity|floatformat:2 }}</span></td>
                         <td>
-                            <!-- Remove button -->
                         <div class="add-remove-buttons">
                             {% if item.quantity >= item.stock %}
                             <form method="post" action="{% url 'store:add_one_piece' product_id=product_id %}">
