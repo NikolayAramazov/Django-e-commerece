@@ -36,5 +36,17 @@ def all_products(request):
 
 def product_detail(request, pk):
     product = Product.objects.get(id=pk)
+
+    recently_viewed = request.session.get('recently_viewed', [])
+
+    if product.id in recently_viewed:
+        recently_viewed.remove(product.id)
+    recently_viewed.append(product.id)
+
+    if len(recently_viewed) > 5:
+        recently_viewed = recently_viewed[:5]
+
+    request.session['recently_viewed'] = recently_viewed
+
     return render(request, 'storage/product_detail.html', {'product': product})
 

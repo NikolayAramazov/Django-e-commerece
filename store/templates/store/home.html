@@ -59,9 +59,17 @@
         </select>
     </div>
 
+
+    <div id="chatbot-widget" style="position: fixed; bottom: 20px; right: 20px; width: 300px; color: white; background: black; border: 1px solid #ccc; padding: 10px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);z-index: 99999;">
+        <div id="chat-log" style="max-height: 200px; overflow-y: auto; margin-bottom: 10px; font-size: 14px;"></div>
+        <input type="text" id="chat-input" placeholder="Ask me something..." style="width: 100%; padding: 6px; background-color: black; color: white; border: 1px solid white;" />
+    </div>
+
+
+
     {% if request.path == '/' %}
     <div class="main">
-        <div class="container-fluid mt-4">
+        <div class="container-fluid mt-4 ad-carousel">
                 <h3 class="ads_title">Our Latest Products</h3>
 
                 {% if ads %}
@@ -97,20 +105,82 @@
                 {% endif %}
         </div>
 
+        <div class="company-services">
+            <div class="services_container">
+                <div class="service-item">
+                    <div class="service-header">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <strong>Free delivery</strong>
+                    </div>
+                    <p>Consectetur adipi elit lorem ipsum dolor sit amet.</p>
+                </div>
+                <div class="service-item">
+                    <div class="service-header">
+                        <i class="fa-solid fa-medal"></i>
+                        <strong>Quality guarantee</strong>
+                    </div>
+                    <p>Dolor sit amet orem ipsu mcons ectetur adipi elit.</p>
+                </div>
+                <div class="service-item">
+                    <div class="service-header">
+                        <i class="fa-solid fa-tag"></i>
+                        <strong>Daily offers</strong>
+                    </div>
+                    <p>Amet consectetur adipi elit loreme ipsum dolor sit.</p>
+                </div>
+                <div class="service-item">
+                    <div class="service-header">
+                        <i class="fa-solid fa-shield"></i>
+                        <strong>100% secure payment</strong>
+                    </div>
+                    <p>Rem Lopsum dolor sit amet, consectetur adipi elit.</p>
+                </div>
+            </div>
+        </div>
+
         <div class="container-fluid mt-4">
                 <h3 class="best_sellers_title">Best Sellers</h3>
 
                     <div id="best_sellers" class="row">
-                    {% include 'storage/best_sellers.html' %}
+                        {% include 'storage/best_sellers.html' %}
                     </div>
         </div>
+
+        <section id="yearly-sale" class="overflow-hidden mt-5 padding-xlarge"
+          style="
+            background-image: url('media/product_images/Iphone_yearly_ad.png');
+            background-position: right;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-color: #bdbbbb;
+          "
+        >
+          <div class="row d-flex flex-wrap align-items-center" style="min-height: 600px;"> <!-- Makes container taller -->
+            <div class="col-md-6 col-sm-12">
+              <div class="text-content offset-md-1 padding-medium">
+                <h3 style="font-size: xxx-large">UP TO 30% OFF</h3>
+                <h2 class="display-2 pb-5 text-uppercase text-dark">New year sale</h2>
+                <a href="products/category/?category=" class="btn btn-medium btn-dark text-uppercase btn-rounded-none">Shop Sale</a>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <div class="container-fluid mt-4">
                 <h3 class="on_sale_products_title">Special Offers</h3>
 
                     <div id="on_sale_products" class="row">
-                    {% include 'storage/on_sale_products.html' %}
+                        {% include 'storage/on_sale_products.html' %}
                     </div>
+        </div>
+
+
+        <div class="container-fluid mt-4">
+            <h3 class="recently_viewed_title">Recently Viewed</h3>
+
+                <div id="recently_viewed_products" class="row recently-viewed-section">
+                    {% include 'storage/recently_viewed.html' %}
+                </div>
         </div>
 
 
@@ -148,6 +218,38 @@
         });
     });
 
+    document.getElementById('chat-input').addEventListener('keydown', async function (e) {
+    if (e.key === 'Enter') {
+        const input = this.value.trim();
+        if (!input) return;
+
+        const chatLog = document.getElementById('chat-log');
+        chatLog.innerHTML += `<div><strong>You:</strong> ${input}</div>`;
+        this.value = '';
+
+        try {
+            const response = await fetch('/chat/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: input })
+            });
+
+            const data = await response.json();
+            console.log("Bot response:", data);
+
+            if (data.response) {
+                chatLog.innerHTML += `<div><strong>Bot:</strong> ${data.response}</div>`;
+            } else {
+                chatLog.innerHTML += `<div><strong>Bot:</strong> (No response received)</div>`;
+            }
+
+            chatLog.scrollTop = chatLog.scrollHeight;
+        } catch (error) {
+            console.error('Chat fetch error:', error);
+            chatLog.innerHTML += `<div><strong>Bot:</strong> Failed to contact server.</div>`;
+        }
+    }
+});
 
 
     </script>

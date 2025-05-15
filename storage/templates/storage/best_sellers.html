@@ -12,12 +12,10 @@
 
                 {% if product.is_on_sale and product.on_sale_price != product.price %}
                     <p class="card-text">
-                        <span class="price-label"><strong>Old Price:</strong></span>
-                        <span class="price-value"><del data-usd="{{ product.price }}">${{ product.price }}</del></span>
+                        <span class="price-label"><strong>Old Price: <span class="price-value"><del data-usd="{{ product.price }}">${{ product.price }}</del></span></strong></span>
                     </p>
                     <p class="card-text" style="color: #F73718">
-                        <span class="price-label"><strong>New Price:</strong></span>
-                        <span class="price-value" data-usd="{{ product.on_sale_price }}">${{ product.on_sale_price }}</span>
+                        <span class="price-label"><strong>New Price: <span class="price-value" data-usd="{{ product.on_sale_price }}">${{ product.on_sale_price }}</span></strong></span>
                     </p>
                 {% else %}
                     <p class="card-text">

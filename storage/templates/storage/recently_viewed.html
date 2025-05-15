@@ -1,10 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% load static %}
+{% for product in recently_viewed_products %}
+    <div class="product-card">
+        <div class="card h-100">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+            {% else %}
+                <img src="{% static 'images/default-product.jpg' %}" class="card-img-top" alt="No image">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+
+                {% if product.is_on_sale and product.on_sale_price != product.price %}
+                    <p class="card-text">
+                        <span class="price-label"><strong>Old Price: <span class="price-value"><del data-usd="{{ product.price }}">${{ product.price }}</del></span></strong></span>
+                    </p>
+                    <p class="card-text" style="color: #F73718">
+                        <span class="price-label"><strong>New Price: <span class="price-value" data-usd="{{ product.on_sale_price }}">${{ product.on_sale_price }}</span></strong></span>
+                    </p>
+                {% else %}
+                    <p class="card-text">
+                        <span class="price-label"><strong>Price: <span class="price-value" data-usd="{{ product.price }}">{{ product.price }}</span></strong></span>
+                    </p>
+                {% endif %}
+
+
+                <form method="get" action="{% url 'product_detail' product.id %}">
+                    <button type="submit" class="btn btn-dark add-to-cart-btn">View Product</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+<script>
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+            location.reload();
+        }
+    });
+</script>

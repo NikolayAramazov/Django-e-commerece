@@ -379,7 +379,8 @@ div#best_sellers {
 
 #best_sellers,
 #product-list,
-#on_sale_products{
+#on_sale_products,
+#recently_viewed_products{
     width: 1650px;
     display: flex;
     flex-wrap: wrap;
@@ -443,5 +444,60 @@ i.fa-solid.fa-fire {
 #currency-select:focus {
     outline: none;
     box-shadow: none;
+}
+
+.recently-viewed-section .product-card {
+    flex: 0 0 calc(20% - 20px);
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.recently-viewed-section .card-img-top {
+    height: 150px;
+    object-fit: contain;
+}
+
+.container-fluid.mt-4.ad-carousel{
+    width: 1800px;
+}
+
+.company-services .services_container {
+    display: flex;
+    gap: 30px;
+    justify-content: space-between;
+}
+
+.service-item {
+    flex: 1 1 calc(45% - 30px);
+    padding: 30px;
+    border: 1px solid #323232;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+    font-size: 18px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.service-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.service-header i {
+    font-size: 28px;
+    margin-right: 12px;
+    color: #007BFF;
+}
+
+.service-header strong {
+    font-size: 20px;
+}
+
+.company-services{
+    padding: 0px 100px 0 100px;
+}
+
+.text-content.offset-md-1.padding-medium{
+    margin-left: 300px;
 }
 
