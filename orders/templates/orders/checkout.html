@@ -2,6 +2,21 @@
 {% block title %}Checkout{% endblock %}
 
 {% block content %}
+<style>
+    a.btn.btn-primary.place_order_btn {
+    margin: 20px auto 0;
+    width: 200px;
+    padding: 12px;
+    color: #fff;
+    background-color: #232b2b;
+    border-color: #232b2b;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    display: block;
+}
+</style>
 <div class="container mt-5">
     <h2 class="checkout_title">Checkout</h2>
     <form class="checkout_form" method="post" novalidate>
@@ -12,11 +27,12 @@
                 {{ field }}
             </div>
         {% endfor %}
-        <a href="{% url 'orders:payment' %}" class="place_order_btn">
-        <button type="submit" class="btn btn-primary">Place Order</button>
-        </a>
+
+        {% if user.is_authenticated %}
+            <button type="submit" class="btn btn-primary place_order_btn">Place Order</button>
+        {% else %}
+            <a href="{% url 'accounts:sign_in' %}" class="btn btn-primary place_order_btn">Place Order</a>
+        {% endif %}
     </form>
 </div>
-
 {% endblock %}
-

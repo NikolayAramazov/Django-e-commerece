@@ -13,6 +13,7 @@ def products_by_category(request):
     else:
         products = Product.objects.all()
     categories = Category.objects.all()
+
     return render(request, 'storage/product_list.html', {
         'products': products,
         'categories': categories,

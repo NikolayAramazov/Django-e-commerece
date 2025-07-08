@@ -1,14 +1,8 @@
-import json
-import traceback
-
 import requests
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.csrf import csrf_exempt
-
 from DjangoProject1 import settings
 from storage.models import Product
-from store.chatbot_services import chat_with_bot
 from store.models import Category, Ad
 
 
@@ -100,18 +94,4 @@ def get_exchange_rates(request):
     data = response.json()
     return JsonResponse(data)
 
-@csrf_exempt
-def chatbot_view(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        user_input = data.get('message', '')
-
-        conversation_history = []
-
-        bot_response = chat_with_bot(user_input, conversation_history)
-
-
-        return JsonResponse({'response': bot_response})
-
-    return JsonResponse({'error': 'Invalid request'}, status=400)
 

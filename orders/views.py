@@ -87,7 +87,7 @@ def payment_view(request, order_id):
         'order': order,
         'stripe_key': settings.STRIPE_PUBLISHABLE_KEY,
     }
-    return render(request, 'orders/payment.html', context)  # <-- FIXED
+    return render(request, 'orders/payment.html', context)
 
 
 def payment(request):
