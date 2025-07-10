@@ -1,8 +1,13 @@
 import requests
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+
 from DjangoProject1 import settings
 from storage.models import Product
+from store.forms import CreateProductForm, CreateNewCategoryForm
 from store.models import Category, Ad
 
 
@@ -94,4 +99,21 @@ def get_exchange_rates(request):
     data = response.json()
     return JsonResponse(data)
 
+class CreateProductView(CreateView,LoginRequiredMixin, UserPassesTestMixin):
+    model = Product
+    form_class = CreateProductForm
+    template_name = 'store/create_product.html'
+    success_url = reverse_lazy('store:home')
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+class CreateCategoryView(CreateView,LoginRequiredMixin, UserPassesTestMixin):
+    model = Category
+    form_class = CreateNewCategoryForm
+    template_name = 'store/create_category.html'
+    success_url = reverse_lazy('store:home')
+
+    def test_func(self):
+        return self.request.user.is_superuser
 

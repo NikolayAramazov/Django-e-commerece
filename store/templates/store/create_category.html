@@ -1,0 +1,39 @@
+{% extends 'store/home.html' %}
+
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+<style>
+    .create-product-container{
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="create-category-container">
+    <h2 class="create_category_title">Create New Category</h2>
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <p>{{ field|title }}: {{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="POST" class="sign-in-form" autocomplete="off" onsubmit="return true;">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Category</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+
+    <button type="submit" class="btn btn-primary">Create Category</button>
+
+    </form>
+</div>
+{% endblock %}

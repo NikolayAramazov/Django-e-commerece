@@ -22,6 +22,18 @@
             </div>
         </div>
 
+        {% if user.is_superuser %}
+        <div class="dropdown custom-category-dropdown">
+            <button class="btn btn-dark dropdown-toggle" type="button" id="categoryDropdown1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                CRUD
+            </button>
+            <div class="dropdown-menu" aria-labelledby="categoryDropdown">
+                <a class="dropdown-item" href="{% url 'store:create_product' %}">Create Product</a>
+                <a class="dropdown-item" href="{% url 'store:create_category' %}">Create Category</a>
+            </div>
+        </div>
+        {% endif %}
+
         {% block navbar %}
             <div style="margin-left: auto;">
                 <a href="{% url 'store:cart' %}">
