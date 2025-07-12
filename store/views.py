@@ -1,13 +1,15 @@
 import requests
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 
 from DjangoProject1 import settings
 from storage.models import Product
-from store.forms import CreateProductForm, CreateNewCategoryForm
+from store.forms import CreateProductForm, CreateNewCategoryForm, EditProductForm
 from store.models import Category, Ad
 
 
@@ -117,3 +119,26 @@ class CreateCategoryView(CreateView,LoginRequiredMixin, UserPassesTestMixin):
     def test_func(self):
         return self.request.user.is_superuser
 
+def load_ed_product_page(request):
+    query = request.GET.get('query', '').strip()
+
+    if query:
+        products = Product.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
+    else:
+        products = Product.objects.all()
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string('store/edit_product_list_partial.html', {'products': products})
+        return JsonResponse({'html': html})
+
+    return render(request, 'store/ed_product_page.html', {'products': products, 'query': query})
+
+class EditProductView(UpdateView,LoginRequiredMixin, UserPassesTestMixin):
+    model = Product
+    form_class = EditProductForm
+    template_name = 'store/edit_product.html'
+    success_url = reverse_lazy('store:home')
+    pk_url_kwarg = 'product_id'
+
+    def test_func(self):
+        return self.request.user.is_superuser

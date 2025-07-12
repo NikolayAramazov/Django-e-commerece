@@ -30,3 +30,5 @@ class CreateNewCategoryForm(ModelForm):
             raise forms.ValidationError(f"Category {name} already exists.")
         return name
 
+class EditProductForm(CreateProductForm):
+    ...

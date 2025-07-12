@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import CreateProductView, CreateCategoryView
+from .views import CreateProductView, CreateCategoryView, EditProductView
 
 app_name = 'store'
 
@@ -13,4 +13,6 @@ urlpatterns = [
     path('api/exchange-rates/', views.get_exchange_rates, name='exchange_rates'),
     path('create_product/', CreateProductView.as_view(), name='create_product'),
     path('create_category/', CreateCategoryView.as_view(), name='create_category'),
+    path('ed_product_page/', views.load_ed_product_page, name='ed_product_page'),
+    path('edit_product/<int:product_id>/', EditProductView.as_view(), name='edit_product'),
 ]

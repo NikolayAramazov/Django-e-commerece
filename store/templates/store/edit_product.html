@@ -1,0 +1,126 @@
+{% extends 'store/home.html' %}
+
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<style xmlns:form.category.value xmlns:form.category.value>
+    .create-product-container {
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    #on_sale_price_group {
+        display: none;
+    }
+</style>
+
+<div class="ed-products-container">
+    <h2 class="sign-in-title">
+        {% if form.instance.pk %}Edit Product{% else %}Create New Product{% endif %}
+    </h2>
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <p>{{ field.label }}: {{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" class="sign-in-form" autocomplete="off">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name"
+                   value="{{ form.name.value|default_if_none:'' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description" name="description"
+                   value="{{ form.description.value|default_if_none:'' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" class="form-control" id="price" name="price"
+                   value="{{ form.price.value|default_if_none:'' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select class="form-control" id="category" name="category" required>
+                <option value="">Select a category</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}"
+                        {% if category.id|stringformat:"s" == selected_category_id %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="stock">Stock</label>
+            <input type="number" class="form-control" id="stock" name="stock"
+                   value="{{ form.stock.value|default_if_none:'' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Image</label>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="image" name="image" accept="image/*">
+                <label class="custom-file-label" for="image">Choose image...</label>
+            </div>
+            {% if form.instance.image %}
+                <small>Current: <a href="{{ form.instance.image.url }}" target="_blank">View Image</a></small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="brand">Brand</label>
+            <input type="text" class="form-control" id="brand" name="brand"
+                   value="{{ form.brand.value|default_if_none:'' }}" required>
+        </div>
+
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="is_on_sale" name="is_on_sale"
+                   {% if form.is_on_sale.value %}checked{% endif %}>
+            <label class="form-check-label" for="is_on_sale">On Sale</label>
+        </div>
+
+        <div class="form-group" id="on_sale_price_group">
+            <label for="on_sale_price">On Sale Price</label>
+            <input type="number" class="form-control" id="on_sale_price" name="on_sale_price" step="0.01"
+                   value="{{ form.on_sale_price.value|default_if_none:'' }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            {% if form.instance.pk %}Save Changes{% else %}Create Product{% endif %}
+        </button>
+    </form>
+</div>
+
+<script>
+    const checkbox = document.getElementById('is_on_sale');
+    const priceGroup = document.getElementById('on_sale_price_group');
+    const salePriceInput = document.getElementById('on_sale_price');
+
+    function toggleSaleGroup() {
+        if (checkbox.checked) {
+            priceGroup.style.display = 'block';
+            salePriceInput.required = true;
+        } else {
+            priceGroup.style.display = 'none';
+            salePriceInput.required = false;
+            salePriceInput.value = '';
+        }
+    }
+
+    checkbox.addEventListener('change', toggleSaleGroup);
+    window.addEventListener('DOMContentLoaded', toggleSaleGroup);
+</script>
+{% endblock %}
