@@ -1,4 +1,5 @@
 {% load static %}
+{% load group_filter %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -22,15 +23,22 @@
             </div>
         </div>
 
-        {% if user.is_superuser %}
+        {% if user.is_superuser or user|in_group:"Managers" %}
         <div class="dropdown custom-category-dropdown">
             <button class="btn btn-dark dropdown-toggle" type="button" id="categoryDropdown1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 CRUD
             </button>
             <div class="dropdown-menu" aria-labelledby="categoryDropdown">
-                <a class="dropdown-item" href="{% url 'store:create_product' %}">Create Product</a>
-                <a class="dropdown-item" href="{% url 'store:create_category' %}">Create Category</a>
-                <a class="dropdown-item" href="{% url 'store:ed_product_page' %}">Edit/Delete Product</a>
+
+                {% if user|in_group:"Managers" %}
+                    <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true">Create Product</a>
+                    <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true">Create Category</a>
+                    <a class="dropdown-item" href="{% url 'store:ed_product_page' %}">Edit/Delete Product</a>
+                {% else %}
+                    <a class="dropdown-item" href="{% url 'store:create_product' %}">Create Product</a>
+                    <a class="dropdown-item" href="{% url 'store:create_category' %}">Create Category</a>
+                    <a class="dropdown-item" href="{% url 'store:ed_product_page' %}">Edit/Delete Product</a>
+                {% endif %}
             </div>
         </div>
         {% endif %}
