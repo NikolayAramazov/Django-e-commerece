@@ -34,10 +34,12 @@
                     <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true">Create Product</a>
                     <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true">Create Category</a>
                     <a class="dropdown-item" href="{% url 'store:ed_product_page' %}">Edit/Delete Product</a>
+                    <a class="dropdown-item" href="{% url 'store:ed_category_page' %}">Edit/Delete Product</a>
                 {% else %}
                     <a class="dropdown-item" href="{% url 'store:create_product' %}">Create Product</a>
                     <a class="dropdown-item" href="{% url 'store:create_category' %}">Create Category</a>
                     <a class="dropdown-item" href="{% url 'store:ed_product_page' %}">Edit/Delete Product</a>
+                    <a class="dropdown-item" href="{% url 'store:ed_category_page' %}">Edit/Delete Product</a>
                 {% endif %}
             </div>
         </div>
@@ -231,41 +233,6 @@
             }, 100);
         });
     });
-
-    document.getElementById('chat-input').addEventListener('keydown', async function (e) {
-    if (e.key === 'Enter') {
-        const input = this.value.trim();
-        if (!input) return;
-
-        const chatLog = document.getElementById('chat-log');
-        chatLog.innerHTML += `<div><strong>You:</strong> ${input}</div>`;
-        this.value = '';
-
-        try {
-            const response = await fetch('/chat/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: input })
-            });
-
-            const data = await response.json();
-            console.log("Bot response:", data);
-
-            if (data.response) {
-                chatLog.innerHTML += `<div><strong>Bot:</strong> ${data.response}</div>`;
-            } else {
-                chatLog.innerHTML += `<div><strong>Bot:</strong> (No response received)</div>`;
-            }
-
-            chatLog.scrollTop = chatLog.scrollHeight;
-        } catch (error) {
-            console.error('Chat fetch error:', error);
-            chatLog.innerHTML += `<div><strong>Bot:</strong> Failed to contact server.</div>`;
-        }
-    }
-});
-
-
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>

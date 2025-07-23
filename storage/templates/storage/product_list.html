@@ -46,24 +46,6 @@
         });
     }
 
-    let debounceTimer;
-
-    // Live search
-    $('#search-input').on('keyup', function () {
-    clearTimeout(debounceTimer);
-
-    debounceTimer = setTimeout(() => {
-        const query = $('#search-input').val().trim();
-
-        // If the input is cleared, reset the URL (removes ?query=...)
-        if (query === '') {
-            window.history.pushState({}, '', window.location.pathname); // Remove query from URL
-        }
-
-        searchProducts();
-    }, 300);
-});
-
     // Prevent full reload on submit (use AJAX instead)
     $('#search-form').on('submit', function(e) {
         e.preventDefault();

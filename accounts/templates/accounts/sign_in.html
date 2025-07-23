@@ -6,8 +6,20 @@
 {% endblock %}
 
 {% block content %}
+
     <div class="sign-in-container">
         <h2 class="sign-in-title">Sign In</h2>
+
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <p>{{ field|title }}: {{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <form method="POST" class="sign-in-form" autocomplete="off" onsubmit="return true;">
             {% csrf_token %}
             <div class="form-group">

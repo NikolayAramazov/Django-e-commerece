@@ -1,0 +1,39 @@
+{% extends 'store/home.html' %}
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<style>
+    .manage-category-container {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+</style>
+
+<div class="container manage-category-container">
+    <h2 class="sign-in-title">Manage Categories</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="category">Select Category</label>
+            <select name="category_id" id="category" class="form-control" required>
+                <option value="">-- Select a category --</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="action">Select Action</label>
+            <select name="action" id="action" class="form-control" required>
+                <option value="">-- Choose an action --</option>
+                <option value="edit">Edit</option>
+                <option value="delete">Delete</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Go</button>
+    </form>
+</div>
+{% endblock %}

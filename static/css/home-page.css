@@ -273,13 +273,18 @@ button#categoryDropdown {
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -35px;
-    margin-top: 120px;
     padding: 30px;
     box-shadow: rgba(6, 24, 44, 0.4) 0 0 0 2px, rgba(6, 24, 44, 0.65) 0 4px 6px -1px, rgba(255, 255, 255, 0.08) 0 1px 0 inset;
     width: 1200px;
     border-radius: 10px;
+    align-items: center;
+    height: 650px;
+    align-content: center;
+}
+
+.product_details_container{
+    display: flex;
+    height: 700px;
     align-items: center;
 }
 

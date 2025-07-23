@@ -32,3 +32,6 @@ class CreateNewCategoryForm(ModelForm):
 
 class EditProductForm(CreateProductForm):
     ...
+
+class EditCategoryForm(CreateNewCategoryForm):
+    ...

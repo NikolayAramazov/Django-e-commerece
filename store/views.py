@@ -5,11 +5,11 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 
 from DjangoProject1 import settings
 from storage.models import Product
-from store.forms import CreateProductForm, CreateNewCategoryForm, EditProductForm
+from store.forms import CreateProductForm, CreateNewCategoryForm, EditProductForm, EditCategoryForm
 from store.models import Category, Ad
 
 
@@ -141,4 +141,38 @@ class EditProductView(UpdateView,LoginRequiredMixin, UserPassesTestMixin):
     pk_url_kwarg = 'product_id'
 
     def test_func(self):
-        return self.request.user.is_superuser
+        return self.request.user.is_superuser or self.request.user.is_staff
+
+def load_ed_category_page(request):
+    categories = Category.objects.all()
+
+    if request.method == 'POST':
+        category_id = request.POST.get('category_id')
+        action = request.POST.get('action')
+
+        if category_id and action:
+            if action == 'edit':
+                return redirect('store:edit_category', category_id=category_id)
+            elif action == 'delete':
+                return redirect('store:delete_category', category_id=category_id)
+
+    return render(request, 'store/ed_category_page.html', {'categories': categories})
+
+class EditCategoryView(UpdateView,LoginRequiredMixin, UserPassesTestMixin):
+    model = Category
+    form_class = EditCategoryForm
+    template_name = 'store/edit_category.html'
+    success_url = reverse_lazy('store:home')
+    pk_url_kwarg = 'category_id'
+
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
+
+class DeleteCategoryView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Category
+    template_name = 'store/delete_category.html'
+    success_url = reverse_lazy('store:home')
+    pk_url_kwarg = 'category_id'
+
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
