@@ -8,6 +8,7 @@ from store.models import Category
 
 def products_by_category(request):
     category_id = request.GET.get('category')
+
     if category_id:
         products = Product.objects.filter(category_id=category_id)
     else:

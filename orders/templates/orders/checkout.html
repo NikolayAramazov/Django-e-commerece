@@ -19,8 +19,19 @@
 </style>
 <div class="container mt-5">
     <h2 class="checkout_title">Checkout</h2>
+
     <form class="checkout_form" method="post" novalidate>
         {% csrf_token %}
+
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <p>{{ field|title }}: {{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
 
         {% for field in form %}
             <div class="mb-3">

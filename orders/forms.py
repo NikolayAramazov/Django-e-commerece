@@ -1,4 +1,5 @@
 from django import forms
+from orders.validators import PhoneNumberValidator, ZipCodeValidator
 
 
 class CheckoutForm(forms.Form):
@@ -7,7 +8,7 @@ class CheckoutForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Full Name'})
     )
     phone = forms.CharField(
-        max_length=20,
+        validators=[PhoneNumberValidator(10)],
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone Number'})
     )
     address_line = forms.CharField(
@@ -19,7 +20,7 @@ class CheckoutForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'City'})
     )
     zip_code = forms.CharField(
-        max_length=20,
+        validators=[ZipCodeValidator(4)],
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Zip Code'})
     )
     notes = forms.CharField(
