@@ -20,7 +20,7 @@
 <div class="container mt-5">
     <h2 class="checkout_title">Checkout</h2>
 
-    <form class="checkout_form" method="post" novalidate>
+    <form class="checkout_form" method="POST" autocomplete="off" novalidate >
         {% csrf_token %}
 
         {% if form.errors %}

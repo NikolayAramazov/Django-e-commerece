@@ -1,72 +1,64 @@
-document.addEventListener('DOMContentLoaded', async function () {
+document.addEventListener('DOMContentLoaded', async () => {
     const symbols = { EUR: '€', GBP: '£', INR: '₹', USD: '$' };
 
-    function getCookie(name) {
-        return document.cookie.split('; ').reduce((r, v) => {
-            const parts = v.split('=');
-            return parts[0] === name ? decodeURIComponent(parts[1]) : r;
+    const getCookie = name =>
+        document.cookie.split('; ').reduce((r, v) => {
+            const [k, val] = v.split('=');
+            return k === name ? decodeURIComponent(val) : r;
         }, '');
-    }
 
-    function setCookie(name, value, days) {
+    const setCookie = (name, value, days) => {
         const expires = new Date(Date.now() + days * 864e5).toUTCString();
-        document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
-    }
+        document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+    };
 
-    const savedCurrency = getCookie("currency") || "USD";
     const currencySelect = document.getElementById("currency-select");
-    currencySelect.value = savedCurrency;  // Set the dropdown to the saved currency
+    const savedCurrency = getCookie("currency") || "USD";
+    currencySelect.value = savedCurrency;
 
-    let rates = {};
-    if (savedCurrency !== "USD") {
-        try {
-            const res = await fetch("/api/exchange-rates/");
-            const data = await res.json();
-            console.log("Full API response:", data);
-            rates = data.conversion_rates || {};
-            console.log("Rates object:", rates);
-        } catch (error) {
-            console.error("Error fetching exchange rates:", error);
-        }
-    }
+    let rates = await getRatesIfNeeded(savedCurrency);
 
     function updatePrices(currency) {
+        const symbol = symbols[currency] || '$';
         const priceContainers = document.querySelectorAll('[data-usd]');
 
         priceContainers.forEach(container => {
-            const basePrice = parseFloat(container.getAttribute("data-usd"));
-            const symbol = symbols[currency] || '$';
-            let convertedPrice;
-
-            if (currency === "USD") {
-                convertedPrice = basePrice.toFixed(2);
-            } else {
-                const rate = rates[currency];
-                convertedPrice = rate ? (basePrice * rate).toFixed(2) : basePrice.toFixed(2);
-            }
-
-            container.textContent = `${symbol} ${convertedPrice}`;
+            const usd = parseFloat(container.getAttribute("data-usd"));
+            const rate = currency === "USD" ? 1 : rates?.[currency];
+            const price = (usd * (rate || 1)).toFixed(2);
+            container.textContent = `${symbol} ${price}`;
         });
+    }
+
+    async function getRatesIfNeeded(currency) {
+        if (currency === "USD") return {};
+        try {
+            const res = await fetch("/api/exchange-rates/");
+            const data = await res.json();
+            return data.conversion_rates || {};
+        } catch (err) {
+            console.error("Exchange rate fetch error:", err);
+            return {};
+        }
     }
 
     updatePrices(savedCurrency);
 
-    currencySelect.addEventListener("change", async function () {
-        const selectedCurrency = this.value;
+    currencySelect.addEventListener("change", async () => {
+        const selectedCurrency = currencySelect.value;
         setCookie("currency", selectedCurrency, 7);
-
-        // Fetch new exchange rates if the currency is not USD
-        if (selectedCurrency !== "USD") {
-            try {
-                const res = await fetch("/api/exchange-rates/");
-                const data = await res.json();
-                console.log("Fetched new rates:", data);
-                rates = data.conversion_rates || {};
-            } catch (error) {
-                console.error("Error fetching new exchange rates:", error);
-            }
-        }
-
+        rates = await getRatesIfNeeded(selectedCurrency);
         updatePrices(selectedCurrency);
     });
+
+    window.addEventListener('pageshow', async (event) => {
+    if (event.persisted) {
+        const currentCurrency = getCookie("currency") || "USD";
+        currencySelect.value = currentCurrency;
+        rates = await getRatesIfNeeded(currentCurrency);
+        updatePrices(currentCurrency);
+
+    }
+});
+
 });

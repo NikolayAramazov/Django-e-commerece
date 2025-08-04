@@ -8,7 +8,6 @@ from storage.models import Product
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-
 def checkout(request):
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
@@ -90,14 +89,11 @@ def payment_view(request, order_id):
     return render(request, 'orders/payment.html', context)
 
 
-def payment(request):
-    return render(request, 'orders/payment.html')
-
-
 def complete_order(request,order_id):
     order = Order.objects.get(id=order_id)
-    order.status = 'Completed'
-    order.save()
+
+    if order.status == 'Completed':
+        return render(request, 'orders/complete_order.html', {'order': order})
 
     session_cart = request.session.get('cart', {})
 
@@ -109,6 +105,9 @@ def complete_order(request,order_id):
             product.stock -= quantity
             product.sales += quantity
             product.save()
+
+    order.status = 'Completed'
+    order.save()
 
     request.session['cart'] = {}
     request.session.modified = True
