@@ -45,7 +45,14 @@ Used to convert prices based on real-time exchange rates.
 
 🔗 [exchangerate-api Documentation](https://www.exchangerate-api.com/docs/overview)
 
+---
 
+### 🖼️ Screenshots
 
+### 🏠 Home page / product listing
+
+![Home](<img width="1919" height="923" alt="HomePage" src="https://github.com/user-attachments/assets/dc7281db-0062-45c5-94ce-d7db1525d0aa" />)
+
+![Home](<img width="1919" height="915" alt="Products" src="https://github.com/user-attachments/assets/ffd1593d-5cf9-4d45-a71d-e1224216f615" />)
 
 
