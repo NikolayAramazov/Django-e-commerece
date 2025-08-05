@@ -23,7 +23,7 @@
 
 - **Backend:** Django (Python)
 - **Frontend:** HTML, CSS (Bootstrap), JavaScript, jQuery
-- **Database:** SQLite (default) – easy to switch to PostgreSQL
+- **Database:** PostgreSQL
 - **Payment Integration:** Stripe
 - **Currency Conversion:** Exchange Rate API (e.g., exchangerate.host)
 
@@ -43,6 +43,7 @@ Used for handling:
 Used to convert prices based on real-time exchange rates.  
 You can use free services like:
 -[https://www.exchangerate-api.com/]
+
 
 
 
