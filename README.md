@@ -42,15 +42,7 @@ Used for handling:
 ### 🔹 Exchange Rates API
 Used to convert prices based on real-time exchange rates.  
 You can use free services like:
-- [exchangerate.host](https://exchangerate.host)
-- [Open Exchange Rates](https://openexchangerates.org)
+-[https://www.exchangerate-api.com/]
 
----
 
-## 📦 Getting Started
 
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/yourusername/techzone.git
-cd techzone
