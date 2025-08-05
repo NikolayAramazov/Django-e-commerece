@@ -52,7 +52,9 @@ Used to convert prices based on real-time exchange rates.
 - No password reset functionality
 - No written tests yet
 - Not deployed yet
+- Some styling and JavaScript are embedded directly in HTML templates
 
 I’ve tested most features, but there may still be some small bugs here and there.
+
 
 
