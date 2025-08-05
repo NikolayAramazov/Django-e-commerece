@@ -39,11 +39,13 @@
                     <a class="dropdown-item" href="{% url 'store:create_product' %}">Create Product</a>
                     <a class="dropdown-item" href="{% url 'store:create_category' %}">Create Category</a>
                     <a class="dropdown-item" href="{% url 'store:ed_product_page' %}">Edit/Delete Product</a>
-                    <a class="dropdown-item" href="{% url 'store:ed_category_page' %}">Edit/Delete Product</a>
+                    <a class="dropdown-item" href="{% url 'store:ed_category_page' %}">Edit/Delete Category</a>
                 {% endif %}
             </div>
         </div>
         {% endif %}
+
+        <h2 class="main-title">Welcome to TechZone</h2>
 
         {% block navbar %}
             <div style="margin-left: auto;">
@@ -210,7 +212,7 @@
     </div>
 
     <footer style="background-color: #000; color: #fff; text-align: center; padding: 10px 0; font-size: 14px;">
-        &copy; {{ now|date:"Y" }} YourSiteName. All rights reserved.
+        &copy; {{ now|date:"Y" }} TechZone. All rights reserved.
     </footer>
 
     <script>

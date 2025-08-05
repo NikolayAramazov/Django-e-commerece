@@ -4,18 +4,9 @@
     <h2>Confirm Delete</h2>
     <p>Are you sure you want to delete "{{ object.name }}"?</p>
     <form method="post">
-
-        {% if messages %}
-          {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-              {{ message }}
-            </div>
-          {% endfor %}
-        {% endif %}
-
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Yes, Delete</button>
-        <a href="{% url 'store:ed_category_page' %}" class="btn btn-secondary">Cancel</a>
+        <a href="{% url 'store:ed_product_page' %}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 {% endblock %}

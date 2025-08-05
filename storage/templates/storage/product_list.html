@@ -27,7 +27,6 @@
 <script>
 
     function searchProducts() {
-        const query = $('#search-input').val().trim();
         const form = $('#search-form');
 
         $.ajax({
@@ -46,7 +45,6 @@
         });
     }
 
-    // Prevent full reload on submit (use AJAX instead)
     $('#search-form').on('submit', function(e) {
         e.preventDefault();
         searchProducts();

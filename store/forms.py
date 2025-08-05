@@ -10,6 +10,7 @@ class CreateProductForm(ModelForm):
         model = Product
         fields = ['name', 'description', 'price','category','stock','image','brand','is_on_sale','on_sale_price']
 
+
     def clean_on_sale_price(self):
         on_sale_price = self.cleaned_data.get('on_sale_price')
         price = self.cleaned_data.get('price')

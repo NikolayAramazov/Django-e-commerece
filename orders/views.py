@@ -22,7 +22,8 @@ def checkout(request):
                 try:
                     product = Product.objects.get(id=product_id)
                     quantity = item['quantity']
-                    total_price += product.price * quantity
+                    price = product.on_sale_price if product.is_on_sale and product.on_sale_price else product.price
+                    total_price += price * quantity
                     cart_items.append((product, quantity))
                 except Product.DoesNotExist:
                     continue
@@ -91,9 +92,8 @@ def payment_view(request, order_id):
 
 def complete_order(request,order_id):
     order = Order.objects.get(id=order_id)
-
-    if order.status == 'Completed':
-        return render(request, 'orders/complete_order.html', {'order': order})
+    order.status = 'Completed'
+    order.save()
 
     session_cart = request.session.get('cart', {})
 
@@ -106,10 +106,11 @@ def complete_order(request,order_id):
             product.sales += quantity
             product.save()
 
-    order.status = 'Completed'
-    order.save()
-
-    request.session['cart'] = {}
-    request.session.modified = True
+    if 'cart' in request.session:
+        del request.session['cart']
+        request.session.modified = True
 
     return render(request, 'orders/complete_order.html', {'order': order})
+
+def payment_failed(request):
+    return render(request, 'store/payment_failed.html')

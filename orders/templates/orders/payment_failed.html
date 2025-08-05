@@ -1,0 +1,10 @@
+{% extends 'store/home.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Payment Failed</h2>
+    <p>Your payment was not successful</p>
+    <a href="{% url 'store:home' %}" class="btn btn-primary">Home</a>
+</div>
+{% endblock %}

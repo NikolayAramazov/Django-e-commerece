@@ -20,7 +20,7 @@
 <div class="container mt-5">
     <h2 class="checkout_title">Checkout</h2>
 
-    <form class="checkout_form" method="POST" autocomplete="off" novalidate >
+    <form class="checkout_form" method="POST" novalidate >
         {% csrf_token %}
 
         {% if form.errors %}
@@ -39,11 +39,8 @@
             </div>
         {% endfor %}
 
-        {% if user.is_authenticated %}
-            <button type="submit" class="btn btn-primary place_order_btn">Place Order</button>
-        {% else %}
-            <a href="{% url 'accounts:sign_in' %}" class="btn btn-primary place_order_btn">Place Order</a>
-        {% endif %}
+        <button type="submit" class="btn btn-primary place_order_btn">Place Order</button>
+
     </form>
 </div>
 {% endblock %}

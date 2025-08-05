@@ -1,4 +1,5 @@
 import requests
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
 from django.http import JsonResponse
@@ -6,7 +7,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
-
 from DjangoProject1 import settings
 from storage.models import Product
 from store.forms import CreateProductForm, CreateNewCategoryForm, EditProductForm, EditCategoryForm
@@ -143,6 +143,15 @@ class EditProductView(UpdateView,LoginRequiredMixin, UserPassesTestMixin):
     def test_func(self):
         return self.request.user.is_superuser or self.request.user.is_staff
 
+class DeleteProductView(DeleteView,LoginRequiredMixin, UserPassesTestMixin):
+    model = Product
+    template_name = 'store/delete_product.html'
+    success_url = reverse_lazy('store:home')
+    pk_url_kwarg = 'product_id'
+
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
+
 def load_ed_category_page(request):
     categories = Category.objects.all()
 
@@ -176,3 +185,9 @@ class DeleteCategoryView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.request.user.is_superuser or self.request.user.is_staff
+
+    def form_valid(self, form):
+        if self.get_object().products.exists():
+            messages.warning(self.request, "Cannot delete category. There are products assigned to it.")
+            return redirect(self.success_url)
+        return super().form_valid(form)

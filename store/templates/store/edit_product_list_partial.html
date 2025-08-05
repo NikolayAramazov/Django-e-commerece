@@ -19,6 +19,10 @@
                 <form method="get" action="{% url 'store:edit_product' product.id %}">
                     <button type="submit" class="btn btn-dark add-to-cart-btn">Edit Product</button>
                 </form>
+
+                <form method="get" action="{% url 'store:delete_product' product.id %}">
+                    <button type="submit" style="background: #b32005" class="btn btn-dark add-to-cart-btn">Delete Product</button>
+                </form>
             </div>
         </div>
     </div>
