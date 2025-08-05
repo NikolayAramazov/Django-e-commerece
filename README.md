@@ -41,8 +41,10 @@ Used for handling:
 
 ### 🔹 Exchange Rates API
 Used to convert prices based on real-time exchange rates.  
-You can use free services like:
--[https://www.exchangerate-api.com/]
+-(https://www.exchangerate-api.com/)
+
+🔗 [exchangerate-api Documentation](https://www.exchangerate-api.com/docs/overview)
+
 
 
 
