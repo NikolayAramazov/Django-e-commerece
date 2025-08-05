@@ -47,13 +47,12 @@ Used to convert prices based on real-time exchange rates.
 
 ---
 
-### 🖼️ Screenshots
+### ⚠️ Known Issues
+- No email confirmation on registration (to be added)
+- No password reset functionality
+- No written tests yet
+- Not deployed yet
 
-### 🏠 Home page / product listing
-
-![Home](https://github.com/user-attachments/assets/dc7281db-0062-45c5-94ce-d7db1525d0aa/HomePage.png)
-
-![Products](https://github.com/user-attachments/assets/ffd1593d-5cf9-4d45-a71d-e1224216f615/Products.png)
-
+I’ve tested most features, but there may still be some small bugs here and there.
 
 
