@@ -27,12 +27,12 @@
                         <td>
                         <div class="add-remove-buttons">
                             {% if item.quantity >= item.stock %}
-                            <form method="post" action="{% url 'store:add_one_piece' product_id=product_id %}">
+                            <form method="post" action="{% url 'store:add_to_cart' product_id=product_id %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger" disabled>Add 1</button>
                             </form>
                         {% else %}
-                            <form method="post" action="{% url 'store:add_one_piece' product_id=product_id %}">
+                            <form method="post" action="{% url 'store:add_to_cart' product_id=product_id %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger">Add 1</button>
                             </form>

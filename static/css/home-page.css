@@ -512,3 +512,21 @@ i.fa-solid.fa-fire {
     position: absolute;
     left: 41%;
 }
+
+.create-product-container{
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+#on_sale_price_group{
+    display: none;
+}
+
+#is_on_sale:checked ~ #on_sale_price_group{
+    display: block;
+}
+
+.manage-category-container {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}

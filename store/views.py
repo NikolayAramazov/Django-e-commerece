@@ -72,25 +72,6 @@ def remove_from_cart(request, product_id):
     return render(request, 'store/cart.html', {'cart': cart})
 
 
-def add_one_piece(request, product_id):
-    cart = request.session.get('cart', {})
-    product = get_object_or_404(Product, id=product_id)
-
-    if str(product_id) in cart:
-        if cart[str(product_id)]['quantity'] < product.stock:
-            cart[str(product_id)]['quantity'] += 1
-    else:
-        cart[str(product_id)] = {
-            'name': product.name,
-            'price': float(product.price),
-            'quantity': 1,
-            'stock': product.stock,
-        }
-
-    request.session['cart'] = cart
-
-    return redirect('store:cart')
-
 def get_exchange_rates(request):
     url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/USD"
     response = requests.get(url)

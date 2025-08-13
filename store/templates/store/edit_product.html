@@ -60,8 +60,7 @@
             <select class="form-control" id="category" name="category" required>
                 <option value="">Select a category</option>
                 {% for category in categories %}
-                    <option value="{{ category.id }}"
-                        {% if category.id|stringformat:"s" == selected_category_id %}selected{% endif %}>
+                    <option value="{{ category.id }}">
                         {{ category.name }}
                     </option>
                 {% endfor %}
