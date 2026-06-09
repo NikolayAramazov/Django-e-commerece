@@ -2,7 +2,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from .forms import RegisterForm
-
+from allauth.account.models import EmailAddress
 
 def sign_in(request):
     if request.method == 'POST':
@@ -23,14 +23,17 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
-
-            return redirect('store:home')
-
+            EmailAddress.objects.add_email(request, user, user.email, signup=True, confirm=True)
+            return redirect('accounts:check_email')
     else:
         form = RegisterForm()
-
     return render(request, 'accounts/register.html', {'form': form})
+
+def check_email(request):
+    return render(request, 'accounts/check_email.html')
+
+def email_confirm(request):
+    return render(request, 'accounts/email_confirm.html')
 
 
 def sign_out(request):

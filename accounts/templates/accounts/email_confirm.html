@@ -1,0 +1,7 @@
+{% extends 'store/home.html' %}
+{% block content %}
+<div style="text-align:center; padding: 40px;">
+    <h2>Email Confirmed!</h2>
+    <p>Your account is now active. <a href="{% url 'accounts:sign_in' %}">Login here</a></p>
+</div>
+{% endblock %}
