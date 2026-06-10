@@ -37,5 +37,13 @@
             </div>
         </div>
     </div>
+
+{% empty %}
+    <div class="col-12 text-center mt-5 no-products-found">
+        <i class="fa-solid fa-magnifying-glass fa-3x text-muted mb-3"></i>
+        <h3>No products found</h3>
+        <p class="text-muted">We couldn't find any products matching your search criteria. Try checking your spelling or using different keywords.</p>
+        <a href="{% url 'store:home' %}" class="btn btn-primary mt-2">Back to Shop</a> </div>
+
 {% endfor %}
 <script src="{% static 'js/currency.js' %}"></script>
