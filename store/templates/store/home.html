@@ -45,7 +45,12 @@
         </div>
         {% endif %}
 
-        <h2 class="main-title">Welcome to TechZone</h2>
+        <button class="btn" type="button">
+                <a href="/#contact" class="contacts_btn"><h2>Contacts</h2></a>
+        </button>
+
+        <h2 class="main-title"> <img src="/media/logo/logo.png" class="logo"> TechZone </h2>
+
 
         {% block navbar %}
             <div style="margin-left: auto;">
@@ -214,6 +219,17 @@
     <footer style="background-color: #000; color: #fff; text-align: center; padding: 10px 0; font-size: 14px;">
         &copy; {{ now|date:"Y" }} TechZone. All rights reserved.
     </footer>
+
+    {% if request.path == '/' %}
+        <section style="background-color: #000; color: #fff; text-align: center; padding: 10px 0; font-size: 14px;" id="contact">
+          <h3>Contacts</h3>
+          <p style="font-size: 20px">Email: example@email.com</p>
+          <p style="font-size: 20px">Phone: +123456789</p>
+           <p style="font-size: 20px">Instagram: TechZone</p>
+        </section>
+    {% endif %}
+
+
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
