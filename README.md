@@ -48,7 +48,6 @@ Used to convert prices based on real-time exchange rates.
 ---
 
 ### ⚠️ Known Issues
-- No email confirmation on registration (to be added)
 - No password reset functionality
 - No written tests yet
 - Not deployed yet
