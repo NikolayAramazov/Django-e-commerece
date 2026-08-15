@@ -50,13 +50,10 @@ jobs:
         run: |
           python manage.py check
 
-      - name: Debug
+      - name: Postgres check
         run: |
-          python --version
-          pip --version
-          pwd
-          ls -la
-          env | sort
+          pg_isready -h localhost -p 5432 -U postgres
+      
         
 
       - name: Check migrations
