@@ -55,7 +55,7 @@ jobs:
           python --version
           pip --version
           pwd
-          ls - la
+          ls -la
           env | sort
         
 
