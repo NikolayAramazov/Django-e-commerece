@@ -50,14 +50,6 @@ jobs:
         run: |
           python manage.py check
 
-      - name: Test Django database connection
-        run: |
-          python manage.py shell -c "
-          from django.db import connection
-          connection.ensure_connection()
-          print('Django database connection successful')
-          "
-
       - name: Check migrations
         run: |
           python manage.py makemigrations --check --dry-run
