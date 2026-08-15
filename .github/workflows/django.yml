@@ -50,6 +50,15 @@ jobs:
         run: |
           python manage.py check
 
+      - name: Debug
+        run: |
+          python --version
+          pip --version
+          pwd
+          ls - la
+          env | sort
+        
+
       - name: Check migrations
         run: |
           python manage.py makemigrations --check --dry-run
